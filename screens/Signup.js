@@ -8,6 +8,28 @@ const SignUpScreen = ({ navigation }) => {
   const handleSignUp = async () => {
     try {
       const response = await fetch(
+        `https://chat-node-naveenterances-projects.vercel.app/users/${name}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.exists) {
+          alert("Username not available");
+          return;
+        }
+      }
+    } catch (error) {
+      console.error("Error checking user existence:", error);
+    }
+
+    try {
+      const response = await fetch(
         "https://chat-node-naveenterances-projects.vercel.app/users",
         {
           method: "POST",
