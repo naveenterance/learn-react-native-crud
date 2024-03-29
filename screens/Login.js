@@ -25,6 +25,7 @@ const LoginScreen = ({ navigation }) => {
 
       const responseData = await response.json();
       await AsyncStorage.setItem("jwtToken", responseData.token);
+
       navigation.navigate("Home");
     } catch (error) {
       alert("Invalid credentials");
@@ -43,5 +44,11 @@ const LoginScreen = ({ navigation }) => {
     </View>
   );
 };
+
+LoginScreen.navigationOptions = ({ navigation }) => ({
+  headerLeft: () => (
+    <Button title="Back" onPress={() => navigation.navigate("Welcome")} />
+  ),
+});
 
 export default LoginScreen;

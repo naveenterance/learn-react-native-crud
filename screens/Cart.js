@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Text, TextInput, View } from "react-native";
 
 const CartScreen = ({ route, navigation }) => {
@@ -17,6 +17,10 @@ const CartScreen = ({ route, navigation }) => {
     const newCart = [...updatedCart];
     newCart.splice(index, 1);
     setUpdatedCart(newCart);
+  };
+
+  const goBackWithUpdatedCart = () => {
+    navigation.navigate("Home", { updatedCart });
   };
 
   return (
@@ -45,7 +49,7 @@ const CartScreen = ({ route, navigation }) => {
           </View>
         ))}
       </View>
-      <Button title="Go back" onPress={() => navigation.goBack()} />
+      <Button title="Go back" onPress={goBackWithUpdatedCart} />
     </View>
   );
 };

@@ -3,7 +3,7 @@ import { Button, Text, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation, route }) => {
   const [user, setUser] = useState(null);
   const [flowers, setFlowers] = useState([]);
   const [cart, setCart] = useState([]);
@@ -16,12 +16,10 @@ const HomeScreen = ({ navigation }) => {
   const addToCart = (flower) => {
     const existingItemIndex = cart.findIndex((item) => item.name === flower);
     if (existingItemIndex !== -1) {
-      // If the item already exists in the cart, increment its quantity
       const updatedCart = [...cart];
       updatedCart[existingItemIndex].quantity++;
       setCart(updatedCart);
     } else {
-      // If the item is not in the cart, add it with quantity 1
       setCart([...cart, { name: flower, quantity: 1 }]);
     }
   };
@@ -43,10 +41,8 @@ const HomeScreen = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    // Fetch your list of flowers here
     const fetchFlowers = async () => {
       try {
-        // Simulated list of flowers, replace this with your actual API call or data source
         const flowerList = ["Rose", "Lily", "Sunflower", "Tulip", "Daisy"];
         setFlowers(flowerList);
       } catch (error) {
@@ -57,8 +53,14 @@ const HomeScreen = ({ navigation }) => {
     fetchFlowers();
   }, []);
 
+  useEffect(() => {
+    if (route.params?.updatedCart) {
+      setCart(route.params.updatedCart);
+    }
+  }, [route.params?.updatedCart]);
+
   const navigateToCartScreen = () => {
-    navigation.navigate("Cart", { cart }); // Pass cart data as a navigation parameter
+    navigation.navigate("Cart", { cart });
   };
 
   return (
@@ -67,15 +69,27 @@ const HomeScreen = ({ navigation }) => {
         <View>
           <Text>Welcome, {user.name}!</Text>
           <Button title="Logout" onPress={handleLogout} />
-
           <Text>List of Flowers:</Text>
-          {flowers.map((flower, index) => (
-            <View key={index}>
-              <Text>{flower}</Text>
-              <Button title="Add to Cart" onPress={() => addToCart(flower)} />
-            </View>
-          ))}
-
+          {flowers.map((flower, index) => {
+            const cartItem = cart.find((item) => item.name === flower);
+            return (
+              <View key={index}>
+                <Text>{flower}</Text>
+                {/* Display the count if the flower is in the cart */}
+                {cartItem ? (
+                  <Button
+                    title={`Added: ${cartItem.quantity}`}
+                    onPress={() => addToCart(flower)}
+                  />
+                ) : (
+                  <Button
+                    title="Add to Cart"
+                    onPress={() => addToCart(flower)}
+                  />
+                )}
+              </View>
+            );
+          })}
           <Button title="Go to Cart" onPress={navigateToCartScreen} />
           <Text>Items in Cart: {cart.length}</Text>
         </View>
