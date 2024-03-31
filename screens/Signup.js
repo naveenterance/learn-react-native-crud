@@ -1,5 +1,15 @@
 import { useState } from "react";
-import { Button, TextInput, View } from "react-native";
+import {
+  TextInput,
+  View,
+  Pressable,
+  ImageBackground,
+  Text,
+} from "react-native";
+import { AntDesign } from "@expo/vector-icons";
+import container_1 from "../components/container_1";
+import button_1 from "../components/button_1";
+import input_1 from "../components/input_1";
 
 const SignUpScreen = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -51,16 +61,38 @@ const SignUpScreen = ({ navigation }) => {
   };
 
   return (
-    <View>
-      <TextInput placeholder="Username" value={name} onChangeText={setName} />
-      <TextInput
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry={true}
-      />
-      <Button title="Sign Up" onPress={handleSignUp} />
-    </View>
+    <ImageBackground
+      source={require("../assets/flower.jpeg")}
+      style={container_1.background}
+    >
+      <View style={container_1.container}>
+        <TextInput
+          placeholder="Username"
+          value={name}
+          onChangeText={setName}
+          style={input_1.input}
+        />
+        <TextInput
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={true}
+          style={input_1.input}
+        />
+        <Pressable
+          style={({ pressed }) => [
+            button_1.button,
+            { opacity: pressed ? 0.5 : 1.0 },
+            { borderColor: "gray" },
+          ]}
+          onPress={handleSignUp}
+        >
+          <Text style={button_1.buttonText}>
+            Signup <AntDesign name="login" size={24} color="black" />
+          </Text>
+        </Pressable>
+      </View>
+    </ImageBackground>
   );
 };
 

@@ -11,20 +11,52 @@ import CartScreen from "./screens/Cart";
 const Stack = createStackNavigator();
 
 const App = () => {
+  const screenOptions = {
+    headerTitleAlign: "center", // Aligns the header title to center
+    headerTitleStyle: {
+      fontWeight: "bold",
+    },
+  };
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Welcome">
+      <Stack.Navigator initialRouteName="Welcome" screenOptions={screenOptions}>
         <Stack.Screen
           name="Welcome"
           component={Welcome}
           options={{
-            headerShown: false,
+            headerTitle: () => null,
           }}
         />
-        <Stack.Screen name="SignUp" component={SignUpScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Cart" component={CartScreen} />
+        <Stack.Screen
+          name="SignUp"
+          component={SignUpScreen}
+          options={{
+            headerTitle: "Sign Up",
+          }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{
+            headerTitle: "Login",
+          }}
+        />
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            headerTitle: "fleuriste",
+            headerLeft: null, // Hide the back button for Home screen
+          }}
+        />
+        <Stack.Screen
+          name="Cart"
+          component={CartScreen}
+          options={{
+            headerTitle: "Cart",
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

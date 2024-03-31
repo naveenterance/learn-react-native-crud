@@ -4,12 +4,14 @@ import {
   TextInput,
   View,
   Pressable,
-  StyleSheet,
   ImageBackground,
   Text,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
+import container_1 from "../components/container_1";
+import button_1 from "../components/button_1";
+import input_1 from "../components/input_1";
 
 const LoginScreen = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -44,23 +46,30 @@ const LoginScreen = ({ navigation }) => {
   return (
     <ImageBackground
       source={require("../assets/flower.jpeg")}
-      style={styles.background}
+      style={container_1.background}
     >
-      <View style={styles.container}>
-        <TextInput placeholder="Username" onChangeText={setName} />
+      <View style={container_1.container}>
+        <TextInput
+          placeholder="Username"
+          onChangeText={setName}
+          style={input_1.input}
+        />
         <TextInput
           placeholder="Password"
           secureTextEntry={true}
           onChangeText={setPassword}
+          style={input_1.input}
         />
         <Pressable
           style={({ pressed }) => [
-            styles.button,
+            button_1.button,
             { opacity: pressed ? 0.5 : 1.0 },
+            ,
+            { borderColor: "gray" },
           ]}
-          onPress={() => navigation.navigate("Login")}
+          onPress={handleLogin}
         >
-          <Text style={styles.buttonText}>
+          <Text style={button_1.buttonText}>
             Login <AntDesign name="login" size={24} color="black" />
           </Text>
         </Pressable>
@@ -73,36 +82,6 @@ LoginScreen.navigationOptions = ({ navigation }) => ({
   headerLeft: () => (
     <Button title="Back" onPress={() => navigation.navigate("Welcome")} />
   ),
-});
-
-const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    resizeMode: "cover",
-    justifyContent: "center",
-  },
-  container: {
-    margin: 100,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-  },
-  button: {
-    borderRadius: 20,
-    borderWidth: 4,
-    padding: 20,
-    margin: 20,
-    width: 150,
-    height: 80,
-  },
-  buttonText: {
-    color: "black",
-    textAlign: "center",
-
-    fontWeight: "bold",
-    fontSize: 20,
-  },
 });
 
 export default LoginScreen;

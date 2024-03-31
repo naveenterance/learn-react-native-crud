@@ -23,6 +23,17 @@ const HomeScreen = ({ navigation, route }) => {
       setCart([...cart, { name: flower, quantity: 1 }]);
     }
   };
+  const decreaseQuantity = (flower) => {
+    const existingItemIndex = cart.findIndex((item) => item.name === flower);
+    if (existingItemIndex !== -1) {
+      const updatedCart = [...cart];
+      updatedCart[existingItemIndex].quantity--;
+      if (updatedCart[existingItemIndex].quantity === 0) {
+        updatedCart.splice(existingItemIndex, 1); // Remove item if quantity becomes 0
+      }
+      setCart(updatedCart);
+    }
+  };
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -63,39 +74,35 @@ const HomeScreen = ({ navigation, route }) => {
     navigation.navigate("Cart", { cart });
   };
 
+  if (!user) {
+    return null; // Render nothing if user is not available
+  }
+
   return (
     <View>
-      {user ? (
-        <View>
-          <Text>Welcome, {user.name}!</Text>
-          <Button title="Logout" onPress={handleLogout} />
-          <Text>List of Flowers:</Text>
-          {flowers.map((flower, index) => {
-            const cartItem = cart.find((item) => item.name === flower);
-            return (
-              <View key={index}>
-                <Text>{flower}</Text>
-                {/* Display the count if the flower is in the cart */}
-                {cartItem ? (
-                  <Button
-                    title={`Added: ${cartItem.quantity}`}
-                    onPress={() => addToCart(flower)}
-                  />
-                ) : (
-                  <Button
-                    title="Add to Cart"
-                    onPress={() => addToCart(flower)}
-                  />
-                )}
+      <Text>Welcome, {user.name}!</Text>
+      <Button title="Logout" onPress={handleLogout} />
+      <Text>List of Flowers:</Text>
+      {flowers.map((flower, index) => {
+        const cartItem = cart.find((item) => item.name === flower);
+        return (
+          <View key={index}>
+            <Text>{flower}</Text>
+            {/* Display the count if the flower is in the cart */}
+            {cartItem ? (
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Button title="-" onPress={() => decreaseQuantity(flower)} />
+                <Text>{cartItem.quantity}</Text>
+                <Button title="+" onPress={() => addToCart(flower)} />
               </View>
-            );
-          })}
-          <Button title="Go to Cart" onPress={navigateToCartScreen} />
-          <Text>Items in Cart: {cart.length}</Text>
-        </View>
-      ) : (
-        <Text>Loading...</Text>
-      )}
+            ) : (
+              <Button title="Add to Cart" onPress={() => addToCart(flower)} />
+            )}
+          </View>
+        );
+      })}
+      <Button title="Go to Cart" onPress={navigateToCartScreen} />
+      <Text>Items in Cart: {cart.length}</Text>
     </View>
   );
 };

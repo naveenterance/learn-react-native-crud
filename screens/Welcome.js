@@ -9,6 +9,8 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import "core-js/stable/atob";
 import { AntDesign } from "@expo/vector-icons";
+import container_1 from "../components/container_1";
+import button_1 from "../components/button_1";
 
 const Welcome = ({ navigation }) => {
   useEffect(() => {
@@ -25,28 +27,28 @@ const Welcome = ({ navigation }) => {
   return (
     <ImageBackground
       source={require("../assets/flower.jpeg")}
-      style={styles.background}
+      style={container_1.background}
     >
-      <View style={styles.container}>
+      <View style={container_1.container}>
         <Pressable
           style={({ pressed }) => [
-            styles.button,
+            button_1.button,
             { opacity: pressed ? 0.5 : 1.0 },
           ]}
           onPress={() => navigation.navigate("Login")}
         >
-          <Text style={styles.buttonText}>
+          <Text style={button_1.buttonText}>
             Login <AntDesign name="login" size={24} color="black" />
           </Text>
         </Pressable>
         <Pressable
           style={({ pressed }) => [
-            styles.button,
+            button_1.button,
             { opacity: pressed ? 0.5 : 1.0 },
           ]}
           onPress={() => navigation.navigate("SignUp")}
         >
-          <Text style={styles.buttonText}>
+          <Text style={button_1.buttonText}>
             Sign Up <AntDesign name="adduser" size={24} color="black" />
           </Text>
         </Pressable>
@@ -54,35 +56,5 @@ const Welcome = ({ navigation }) => {
     </ImageBackground>
   );
 };
-
-const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    resizeMode: "cover",
-    justifyContent: "center",
-  },
-  container: {
-    margin: 100,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-  },
-  button: {
-    borderRadius: 20,
-    borderWidth: 4,
-    padding: 20,
-    margin: 20,
-    width: 150,
-    height: 80,
-  },
-  buttonText: {
-    color: "black",
-    textAlign: "center",
-
-    fontWeight: "bold",
-    fontSize: 20,
-  },
-});
 
 export default Welcome;
