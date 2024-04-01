@@ -48,7 +48,15 @@ const LoginScreen = ({ navigation }) => {
       source={require("../assets/flower.jpeg")}
       style={container_1.background}
     >
-      <View style={container_1.container}>
+      <View
+        style={{
+          marginBottom: "40%",
+          flexDirection: "column",
+          padding: 20,
+          alignItems: "center",
+          backgroundColor: "white",
+        }}
+      >
         <TextInput
           placeholder="Username"
           onChangeText={setName}
@@ -62,15 +70,13 @@ const LoginScreen = ({ navigation }) => {
         />
         <Pressable
           style={({ pressed }) => [
-            button_1.button,
             { opacity: pressed ? 0.5 : 1.0 },
-            ,
-            { borderColor: "gray" },
+            { marginTop: "10%" },
           ]}
           onPress={handleLogin}
         >
           <Text style={button_1.buttonText}>
-            Login <AntDesign name="login" size={24} color="black" />
+            Login <AntDesign name="login" size={36} color="black" />
           </Text>
         </Pressable>
       </View>

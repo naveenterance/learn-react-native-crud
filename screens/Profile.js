@@ -5,7 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 import button_1 from "../components/button_1";
 
-const Profile = () => {
+const Profile = ({ navigation }) => {
   const [user, setUser] = useState(null);
   const handleLogout = async () => {
     await AsyncStorage.removeItem("jwtToken");
@@ -34,34 +34,26 @@ const Profile = () => {
   return (
     <View
       style={{
-        flexDirection: "row",
+        flexDirection: "column",
         alignItems: "center",
         justifyContent: "space-between",
         marginTop: "10%",
       }}
     >
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <MaterialIcons name="account-circle" size={48} color="black" />
-        <Text style={{ marginLeft: 10 }}>{user.name}</Text>
-      </View>
+      <MaterialIcons name="account-circle" size={64} color="black" />
+      <Text style={{ fontSize: 50 }}>{user.name}</Text>
+
       <Pressable
         style={({ pressed }) => [
-          button_1.button,
           { opacity: pressed ? 0.5 : 1.0 },
-          ,
-          { borderColor: "gray" },
+          { marginTop: "10%" },
         ]}
         onPress={handleLogout}
       >
-        <Text style={button_1.buttonText}>
-          Logout <AntDesign name="logout" size={24} color="black" />
+        <Text style={{ color: "red", fontSize: 30 }}>
+          Logout <AntDesign name="logout" size={24} color="red" />
         </Text>
       </Pressable>
-
-      <Button
-        title="Go to Cart"
-        onPress={() => navigation.navigate("Cart", { cart })}
-      />
     </View>
   );
 };

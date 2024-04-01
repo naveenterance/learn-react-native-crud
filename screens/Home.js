@@ -74,29 +74,41 @@ const HomeScreen = ({ navigation, route }) => {
 
   return (
     <View>
-      <Pressable
-        style={({ pressed }) => [
-          { opacity: pressed ? 0.5 : 1.0 },
-          { marginRight: "90%" },
-        ]}
-        onPress={() => navigation.navigate("Profile")}
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginTop: "10%",
+          marginBottom: "10%",
+          padding: "2%",
+        }}
       >
-        <Text style={{ marginTop: "100%", marginBottom: "100%" }}>
+        <Pressable
+          style={({ pressed }) => [
+            { opacity: pressed ? 0.5 : 1.0 },
+            { marginRight: 16 },
+          ]}
+          onPress={() => navigation.navigate("Profile")}
+        >
           <MaterialCommunityIcons name="menu" size={36} color="black" />
-        </Text>
-      </Pressable>
-      <Pressable
-        style={({ pressed }) => [
-          { opacity: pressed ? 0.5 : 1.0 },
-          { marginBottom: "10%" },
-        ]}
-        onPress={() => navigation.navigate("Cart", { cart })}
-      >
-        <Text style={button_1.buttonText}>
-          Cart
-          <AntDesign name="shoppingcart" size={24} color="black" />
-        </Text>
-      </Pressable>
+        </Pressable>
+        <Image
+          source={require("../assets/logo.png")}
+          style={{ width: "60%", height: "300%" }}
+        />
+        <Pressable
+          style={({ pressed }) => [
+            { opacity: pressed ? 0.5 : 1.0 },
+            { marginBottom: 10 },
+          ]}
+          onPress={() => navigation.navigate("Cart", { cart })}
+        >
+          <Text style={button_1.buttonText}>
+            <AntDesign name="shoppingcart" size={24} color="black" />
+          </Text>
+        </Pressable>
+      </View>
 
       <ScrollView>
         <View style={{ marginBottom: "50%" }}>
@@ -107,22 +119,46 @@ const HomeScreen = ({ navigation, route }) => {
                 <Image source={flower.image} style={{ height: 200 }} />
                 <Text style={button_1.buttonText}>{flower.name}</Text>
                 {cartItem ? (
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Button
-                      title="-"
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-around",
+                    }}
+                  >
+                    <Pressable
+                      style={({ pressed }) => [
+                        { opacity: pressed ? 0.5 : 1.0 },
+                      ]}
                       onPress={() => decreaseQuantity(flower.name)}
-                    />
-                    <Text>{cartItem.quantity}</Text>
-                    <Button title="+" onPress={() => addToCart(flower.name)} />
+                    >
+                      <AntDesign name="minuscircleo" size={36} color="red" />
+                    </Pressable>
+                    <Text style={{ fontSize: 25, fontWeight: "bold" }}>
+                      {cartItem.quantity}
+                    </Text>
+
+                    <Pressable
+                      style={({ pressed }) => [
+                        { opacity: pressed ? 0.5 : 1.0 },
+                      ]}
+                      onPress={() => addToCart(flower.name)}
+                    >
+                      <AntDesign name="pluscircleo" size={36} color="teal" />
+                    </Pressable>
                   </View>
                 ) : (
                   <Pressable
                     style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1.0 }]}
                     onPress={() => addToCart(flower.name)}
                   >
-                    <Text style={button_1.buttonText}>
+                    <Text style={[button_1.buttonText, { color: "teal" }]}>
                       Add to Cart
-                      <AntDesign name="shoppingcart" size={24} color="black" />
+                      <MaterialIcons
+                        name="add-shopping-cart"
+                        size={24}
+                        color="teal"
+                      />
                     </Text>
                   </Pressable>
                 )}

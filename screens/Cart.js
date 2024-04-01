@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Button, Text, TextInput, View } from "react-native";
+import { Button, Text, TextInput, View, Pressable } from "react-native";
+import { Feather } from "@expo/vector-icons";
 
 const CartScreen = ({ route, navigation }) => {
   const { cart } = route.params;
@@ -25,15 +26,18 @@ const CartScreen = ({ route, navigation }) => {
 
   return (
     <View>
-      <Text>Cart Screen</Text>
-      <View>
-        <Text>Items in Cart:</Text>
+      <View style={{ height: "90%" }}>
         {updatedCart.map((item, index) => (
           <View
             key={index}
-            style={{ flexDirection: "row", alignItems: "center" }}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-around",
+              marginTop: "10%",
+            }}
           >
-            <Text>{item.name}</Text>
+            <Text style={{ width: "20%" }}>{item.name}</Text>
             <TextInput
               style={{
                 borderWidth: 1,
@@ -45,7 +49,13 @@ const CartScreen = ({ route, navigation }) => {
               onChangeText={(text) => updateQuantity(index, parseInt(text))}
               keyboardType="numeric"
             />
-            <Button title="Remove" onPress={() => removeFromCart(index)} />
+
+            <Pressable
+              style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1.0 }]}
+              onPress={() => removeFromCart(index)}
+            >
+              <Feather name="trash-2" size={24} color="red" />
+            </Pressable>
           </View>
         ))}
       </View>
