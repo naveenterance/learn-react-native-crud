@@ -7,12 +7,13 @@ import HomeScreen from "./screens/Home";
 import SignUpScreen from "./screens/Signup";
 import Welcome from "./screens/Welcome";
 import CartScreen from "./screens/Cart";
+import Profile from "./screens/Profile";
 
 const Stack = createStackNavigator();
 
 const App = () => {
   const screenOptions = {
-    headerTitleAlign: "center", // Aligns the header title to center
+    headerTitleAlign: "center",
     headerTitleStyle: {
       fontWeight: "bold",
     },
@@ -46,8 +47,7 @@ const App = () => {
           name="Home"
           component={HomeScreen}
           options={{
-            headerTitle: "fleuriste",
-            headerLeft: null, // Hide the back button for Home screen
+            headerShown: false,
           }}
         />
         <Stack.Screen
@@ -55,6 +55,13 @@ const App = () => {
           component={CartScreen}
           options={{
             headerTitle: "Cart",
+          }}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            headerTitle: "Profile",
           }}
         />
       </Stack.Navigator>
