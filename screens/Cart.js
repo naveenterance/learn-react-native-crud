@@ -1,33 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Button, Text, TextInput, View, Pressable } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { CartContext } from "../store/cart-context";
 
-const CartScreen = ({ route, navigation }) => {
-  const { cart } = route.params;
-  const [updatedCart, setUpdatedCart] = useState(
-    cart.map((item) => ({ ...item }))
-  );
+const CartScreen = ({ navigation }) => {
+  const { cart, setCart } = useContext(CartContext);
 
   const updateQuantity = (index, quantity) => {
-    const newCart = [...updatedCart];
+    const newCart = [...cart];
     newCart[index].quantity = quantity;
-    setUpdatedCart(newCart);
+    setCart(newCart);
   };
 
   const removeFromCart = (index) => {
-    const newCart = [...updatedCart];
+    const newCart = [...cart];
     newCart.splice(index, 1);
-    setUpdatedCart(newCart);
-  };
-
-  const goBackWithUpdatedCart = () => {
-    navigation.navigate("Home", { updatedCart });
+    setCart(newCart);
   };
 
   return (
     <View>
       <View style={{ height: "90%" }}>
-        {updatedCart.map((item, index) => (
+        {cart.map((item, index) => (
           <View
             key={index}
             style={{
@@ -59,7 +53,6 @@ const CartScreen = ({ route, navigation }) => {
           </View>
         ))}
       </View>
-      <Button title="Go back" onPress={goBackWithUpdatedCart} />
     </View>
   );
 };

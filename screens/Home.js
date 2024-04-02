@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Button, Text, View, Pressable, Image, ScrollView } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -10,10 +10,12 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import button_1 from "../components/button_1";
+import { CartContext } from "../store/cart-context";
 
-const HomeScreen = ({ navigation, route }) => {
+const HomeScreen = ({ navigation }) => {
   const [user, setUser] = useState(null);
-  const [cart, setCart] = useState([]);
+
+  const { cart, setCart } = useContext(CartContext);
 
   const addToCart = (flower) => {
     const existingItemIndex = cart.findIndex((item) => item.name === flower);
@@ -32,7 +34,7 @@ const HomeScreen = ({ navigation, route }) => {
       const updatedCart = [...cart];
       updatedCart[existingItemIndex].quantity--;
       if (updatedCart[existingItemIndex].quantity === 0) {
-        updatedCart.splice(existingItemIndex, 1); // Remove item if quantity becomes 0
+        updatedCart.splice(existingItemIndex, 1);
       }
       setCart(updatedCart);
     }
@@ -61,12 +63,6 @@ const HomeScreen = ({ navigation, route }) => {
     { id: 4, name: "Tulip", image: require("../assets/tulip.jpeg") },
     { id: 5, name: "Daisy", image: require("../assets/daisy.jpeg") },
   ];
-
-  useEffect(() => {
-    if (route.params?.updatedCart) {
-      setCart(route.params.updatedCart);
-    }
-  }, [route.params?.updatedCart]);
 
   if (!user) {
     return null;
@@ -168,10 +164,7 @@ const HomeScreen = ({ navigation, route }) => {
         </View>
       </ScrollView>
 
-      <Button
-        title="Go to Cart"
-        onPress={() => navigation.navigate("Cart", { cart })}
-      />
+      <Button title="Go to Cart" onPress={() => navigation.navigate("Cart")} />
 
       <Text>Items in Cart: {cart.length}</Text>
     </View>
