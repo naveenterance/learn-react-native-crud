@@ -14,8 +14,8 @@ import { CartContext } from "../store/cart-context";
 
 const HomeScreen = ({ navigation }) => {
   const [user, setUser] = useState(null);
-
   const { cart, setCart } = useContext(CartContext);
+  const [loading, setLoading] = useState(true);
 
   const addToCart = (flower) => {
     const existingItemIndex = cart.findIndex((item) => item.name === flower);
@@ -48,6 +48,7 @@ const HomeScreen = ({ navigation }) => {
           const decoded = jwtDecode(token);
           setUser(decoded);
         }
+        setLoading(false);
       } catch (error) {
         console.error("Error retrieving user details:", error);
       }
@@ -66,6 +67,14 @@ const HomeScreen = ({ navigation }) => {
 
   if (!user) {
     return null;
+  }
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>Loading</Text>
+      </View>
+    );
   }
 
   return (

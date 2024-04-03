@@ -5,17 +5,26 @@ import {
   Pressable,
   ImageBackground,
   Text,
+  ActivityIndicator,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import container_1 from "../components/container_1";
 import button_1 from "../components/button_1";
 import input_1 from "../components/input_1";
+import * as Notifications from "expo-notifications";
 
 const SignUpScreen = ({ navigation }) => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState();
 
   const handleSignUp = async () => {
+    setLoading(true);
+    const interval = setInterval(() => {
+      setLoading(false);
+      clearInterval(interval);
+    }, 3000);
+
     try {
       const response = await fetch(
         `https://chat-node-naveenterances-projects.vercel.app/users/${name}`,
@@ -53,7 +62,13 @@ const SignUpScreen = ({ navigation }) => {
       if (!response.ok) {
         throw new Error("Sign up failed");
       }
-
+      setLoading("loading");
+      Notifications.scheduleNotificationAsync({
+        content: {
+          title: "Account created successfully",
+        },
+        trigger: { seconds: 2 },
+      });
       navigation.navigate("Login");
     } catch (error) {
       console.error("Error signing up:", error);
@@ -94,9 +109,13 @@ const SignUpScreen = ({ navigation }) => {
           ]}
           onPress={handleSignUp}
         >
-          <Text style={button_1.buttonText}>
-            Signup <AntDesign name="login" size={24} color="black" />
-          </Text>
+          {!loading ? (
+            <Text style={button_1.buttonText}>
+              Signup <AntDesign name="login" size={24} color="black" />
+            </Text>
+          ) : (
+            <ActivityIndicator size="medium" color="gray" />
+          )}
         </Pressable>
       </View>
     </ImageBackground>

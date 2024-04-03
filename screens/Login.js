@@ -6,6 +6,7 @@ import {
   Pressable,
   ImageBackground,
   Text,
+  ActivityIndicator,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
@@ -16,8 +17,14 @@ import input_1 from "../components/input_1";
 const LoginScreen = ({ navigation }) => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState();
 
   const handleLogin = async () => {
+    setLoading(true);
+    const interval = setInterval(() => {
+      setLoading(false);
+      clearInterval(interval);
+    }, 3000);
     try {
       const response = await fetch(
         "https://chat-node-naveenterances-projects.vercel.app/users/login",
@@ -75,9 +82,13 @@ const LoginScreen = ({ navigation }) => {
           ]}
           onPress={handleLogin}
         >
-          <Text style={button_1.buttonText}>
-            Login <AntDesign name="login" size={36} color="black" />
-          </Text>
+          {!loading ? (
+            <Text style={button_1.buttonText}>
+              Login <AntDesign name="login" size={36} color="black" />
+            </Text>
+          ) : (
+            <ActivityIndicator size="medium" color="gray" />
+          )}
         </Pressable>
       </View>
     </ImageBackground>

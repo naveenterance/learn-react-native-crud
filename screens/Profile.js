@@ -4,6 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 import button_1 from "../components/button_1";
+import Camera from "../components/camera";
 
 const Profile = ({ navigation }) => {
   const [user, setUser] = useState(null);
@@ -41,6 +42,7 @@ const Profile = ({ navigation }) => {
       }}
     >
       <MaterialIcons name="account-circle" size={64} color="black" />
+      <Camera />
       <Text style={{ fontSize: 50 }}>{user.name}</Text>
 
       <Pressable

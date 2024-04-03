@@ -9,8 +9,17 @@ import Welcome from "./screens/Welcome";
 import CartScreen from "./screens/Cart";
 import Profile from "./screens/Profile";
 import { CartProvider } from "./store/cart-context";
+import * as Notifications from "expo-notifications";
 
 const Stack = createStackNavigator();
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 const App = () => {
   const screenOptions = {
