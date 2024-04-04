@@ -11,6 +11,7 @@ import {
 } from "@expo/vector-icons";
 import button_1 from "../components/button_1";
 import { CartContext } from "../store/cart-context";
+import { flowers_slide } from "../store/flowers";
 
 const HomeScreen = ({ navigation }) => {
   const [user, setUser] = useState(null);
@@ -57,14 +58,6 @@ const HomeScreen = ({ navigation }) => {
     fetchUserDetails();
   }, []);
 
-  const flowers_slide = [
-    { id: 1, name: "Rose", image: require("../assets/rose.jpeg") },
-    { id: 2, name: "Lily", image: require("../assets/lily.jpeg") },
-    { id: 3, name: "Sunflower", image: require("../assets/sunflower.jpeg") },
-    { id: 4, name: "Tulip", image: require("../assets/tulip.jpeg") },
-    { id: 5, name: "Daisy", image: require("../assets/daisy.jpeg") },
-  ];
-
   if (!user) {
     return null;
   }
@@ -110,7 +103,7 @@ const HomeScreen = ({ navigation }) => {
           onPress={() => navigation.navigate("Cart", { cart })}
         >
           <Text style={button_1.buttonText}>
-            <AntDesign name="shoppingcart" size={24} color="black" />
+            <AntDesign name="shoppingcart" size={36} color="black" />
           </Text>
         </Pressable>
       </View>
@@ -122,7 +115,10 @@ const HomeScreen = ({ navigation }) => {
             return (
               <View key={index} style={{ marginTop: "10%" }}>
                 <Image source={flower.image} style={{ height: 200 }} />
-                <Text style={button_1.buttonText}>{flower.name}</Text>
+                <Text style={[button_1.buttonText, { marginTop: "2%" }]}>
+                  {flower.name}{" "}
+                  <Text style={{ color: "blue" }}>[₹{flower.price}]</Text>
+                </Text>
                 {cartItem ? (
                   <View
                     style={{
@@ -146,6 +142,7 @@ const HomeScreen = ({ navigation }) => {
                     <Pressable
                       style={({ pressed }) => [
                         { opacity: pressed ? 0.5 : 1.0 },
+                        { marginTop: "5%" },
                       ]}
                       onPress={() => addToCart(flower.name)}
                     >
@@ -154,17 +151,32 @@ const HomeScreen = ({ navigation }) => {
                   </View>
                 ) : (
                   <Pressable
-                    style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1.0 }]}
+                    style={({ pressed }) => [
+                      { opacity: pressed ? 0.5 : 1.0 },
+                      {
+                        marginTop: "5%",
+                        flexDirection: "row",
+                        justifyContent: "center",
+                      },
+                    ]}
                     onPress={() => addToCart(flower.name)}
                   >
-                    <Text style={[button_1.buttonText, { color: "teal" }]}>
-                      Add to Cart
+                    <Text
+                      style={[
+                        button_1.buttonText,
+                        { color: "teal" },
+                        { marginRight: "5%" },
+                      ]}
+                    >
+                      Add to Cart{" "}
+                    </Text>
+                    <View>
                       <MaterialIcons
                         name="add-shopping-cart"
-                        size={24}
+                        size={36}
                         color="teal"
                       />
-                    </Text>
+                    </View>
                   </Pressable>
                 )}
               </View>
