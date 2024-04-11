@@ -41,9 +41,8 @@ const CartScreen = ({ navigation }) => {
             (flower) => flower.name === item.name
           );
           return (
-            <ScrollView>
+            <ScrollView key={index}>
               <View
-                key={index}
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
@@ -64,8 +63,9 @@ const CartScreen = ({ navigation }) => {
                   onChangeText={(text) => updateQuantity(index, parseInt(text))}
                   keyboardType="numeric"
                 />
+                <Text>X</Text>
                 <Text style={{ fontSize: 20 }}>
-                  {getTotalPrice(item.name, item.quantity)}
+                  ₹ {getTotalPrice(item.name, item.quantity)}
                 </Text>
                 <Pressable
                   style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1.0 }]}
